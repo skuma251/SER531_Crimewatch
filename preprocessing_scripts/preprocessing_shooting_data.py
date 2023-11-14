@@ -47,7 +47,7 @@ def preprocess():
 	shooting_data_df["Offense_Type"] = np.random.choice(offensetype, size=len(shooting_data_df))
 	shooting_data_df.drop(columns=['X_COORD_CD', 'Y_COORD_CD', 'OCCUR_DATE_F', 'OCCUR_DATE','OCCUR_TIME'], inplace=True)
 	shooting_data_df = shooting_data_df.reindex(columns=['INCIDENT_KEY','OCCUR_DATETIME','Offense_Type','Boro_Name','Precinct_Id','PERP_AGE_GROUP','PERP_SEX','PERP_RACE','VIC_AGE_GROUP','VIC_SEX','VIC_RACE','Latitude','Longitude','Boro','Precinct','Crime','Perperator','Victim','Location','Data_Source'])
-	shooting_data_df.to_excel('data/NYPD_Shooting_Incident_Data_Processed_test.xlsx', index= False)
+	shooting_data_df.to_excel('data/NYPD_Shooting_Incident_Data_Processed.xlsx', index= False)
 	print(shooting_data_df.head(10))
 	print(len(shooting_data_df.index))
 
