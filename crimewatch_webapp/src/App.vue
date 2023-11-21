@@ -1,7 +1,7 @@
+<script setup lang="ts">
+import NavBar from "./components/NavBar/index.vue"
+</script>
 <template>
-  <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </div>
+  <NavBar />
   <router-view />
 </template>
