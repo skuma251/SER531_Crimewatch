@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import edu.asu.crimewatch.service.ComplaintsService;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 public class ComplaintsController {
 
@@ -16,11 +19,18 @@ public class ComplaintsController {
     @Autowired
     ComplaintsService complaintsService;
 
-    @GetMapping("/getComplaint")
-    ResponseEntity<?> getComplaints() {
-        complaintsService.getComplaintsbyYear();
-        return ResponseEntity.ok("Greetings from Spring Boot!");
+    @GetMapping("/getYears")
+    ResponseEntity<?> getYearList() {
+        List<Integer> yearList = complaintsService.fetchYearValues();
+        return ResponseEntity.ok(yearList);
     }
+
+    @GetMapping("/getCrimeTypeCountByYear")
+    ResponseEntity<?> getCrimeTypeCount(@RequestParam("year") int year) {
+        Map<String, Integer> crimeTypeCount = complaintsService.fetchCrimeTypeCountByYear(year);
+        return ResponseEntity.ok(crimeTypeCount);
+    }
+
 
 }
 
