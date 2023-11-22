@@ -60,6 +60,15 @@
             click here
           </a>
         </p>
+
+        <p class="mt-2 text-center text-xl">
+          <router-link
+            to="/complaint-page"
+            class="text-blue-500 hover:underline"
+          >
+            Get Started
+          </router-link>
+        </p>
       </div>
     </div>
     <div class="w-full xl:w-1/2 relative overflow-hidden">
