@@ -11,11 +11,12 @@ import {
   SupportedChartType,
   BarChartData,
   PieChartData,
+  LineChartData,
 } from "../../utils/types";
 
 const props = defineProps<{
   type: SupportedChartType;
-  data: BarChartData | PieChartData;
+  data: BarChartData | PieChartData | LineChartData;
 }>();
 
 onMounted(() => {
