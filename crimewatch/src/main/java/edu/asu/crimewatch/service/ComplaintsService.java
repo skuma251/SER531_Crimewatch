@@ -13,6 +13,7 @@ import java.util.Map;
 import java.util.Collections;
 
 @Service
+
 public class ComplaintsService{
 
     static String complaintsURL = "http://localhost:3030/Complaints_Data";
@@ -57,6 +58,60 @@ public class ComplaintsService{
       return crimeTypeMap;
 
     }
+
+    public Map<String,Integer> fetchCrimeCountByBoro(int year){
+
+        String query = "SELECT ?BoroName (COUNT( Distinct ?crime) as ?Count) WHERE {"+
+                        "?crime rdf:type crimewatch:Crime ;"+
+                        "crimewatch:occuredIn ?Location;"+
+                        "crimewatch:occuredDateTime ?datetime;"+
+                        "BIND(YEAR(?datetime) AS ?year)."+
+                        "?Location crimewatch:underArea ?Boro."+
+                        "?Boro crimewatch:hasName ?BoroName."+
+                        "FILTER(?year =" + year +")."+
+                        "} GROUP BY ?BoroName";
+
+        ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
+        Map<String, Integer> boroCountMap = new HashMap<>();
+         while( response.hasNext())
+        {
+
+            QuerySolution soln = response.nextSolution();
+            boroCountMap.put(soln.getLiteral("?BoroName").getString(),soln.getLiteral("?Count").getInt());
+        }
+      return boroCountMap;
+
+    }
+
+
+    public Map<String, Map<Integer, Integer>> fetchBoroMonthlyStats(int year){
+
+        String query = "SELECT ?BoroName ?month (COUNT( Distinct ?crime) as ?Count) WHERE {"+
+                        "?crime rdf:type crimewatch:Crime ;"+
+                        "crimewatch:occuredIn ?Location;"+
+                        "crimewatch:occuredDateTime ?datetime;"+
+                        "BIND(YEAR(?datetime) AS ?year)."+
+  		                "BIND (MONTH(?datetime) AS ?month)."+
+                        "?Location crimewatch:underArea ?Boro."+
+                        "?Boro crimewatch:hasName ?BoroName."+
+                        "FILTER(?year ="+ year +")."+
+                        "} GROUP BY ?BoroName ?month "+
+                        "ORDERBY ?BoroName ?month";
+
+        ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
+        Map<String, Map<Integer, Integer>> boroStatsMap = new HashMap<String,Map<Integer,Integer>>();
+         while( response.hasNext())
+        {
+
+            QuerySolution soln = response.nextSolution();
+            Map<Integer, Integer> monthcount = new HashMap<Integer, Integer>();
+            monthcount.put(soln.getLiteral("?month").getInt(),soln.getLiteral("?Count").getInt());
+            boroStatsMap.put(soln.getLiteral("?BoroName").getString(),monthcount);
+        }
+      return boroStatsMap;
+
+    }
+
 
 
 }
