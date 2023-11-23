@@ -11,7 +11,7 @@
     <div class="hidden md:flex items-center justify-center flex-1">
       <nav class="menu menu-horizontal space-x-4 text-white">
         <li>
-          <router-link to="/complaints" aria-current="page"
+          <router-link to="/complaint" aria-current="page"
             >Complaints</router-link
           >
         </li>
