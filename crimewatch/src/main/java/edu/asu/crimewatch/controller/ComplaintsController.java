@@ -28,8 +28,8 @@ public class ComplaintsController {
     }
 
     @GetMapping("/getCrimeTypeCountByYear")
-    ResponseEntity<?> getCrimeTypeCount(@RequestParam("year") int year) {
-        Map<String, Integer> crimeTypeCount = complaintsService.fetchCrimeTypeCountByYear(year);
+    ResponseEntity<?> getCrimeTypeCount(@RequestParam("year") int year, @RequestParam("sex") String sex) {
+        Map<String, Integer> crimeTypeCount = complaintsService.fetchCrimeTypeCountByYear(year,sex);
         return ResponseEntity.ok(crimeTypeCount);
     }
     

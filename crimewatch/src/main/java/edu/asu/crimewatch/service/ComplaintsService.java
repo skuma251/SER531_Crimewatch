@@ -37,15 +37,33 @@ public class ComplaintsService{
         return yearList;
     }
 
-    public Map<String,Integer> fetchCrimeTypeCountByYear(int year){
-
-        String query = "SELECT ?offenseType (COUNT(DISTINCT ?crime) as ?Count) WHERE {"+
+    public Map<String,Integer> fetchCrimeTypeCountByYear(int year, String sex){
+        String query="";
+        System.out.println(sex);
+        if(sex.equals("none"))
+        {
+            System.out.println("In this loop");
+            query = "SELECT ?offenseType (COUNT(DISTINCT ?crime) as ?Count) WHERE {"+
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:hasOffenseType ?offenseType;"+
                         "crimewatch:occuredDateTime ?datetime;"+
                         "BIND(YEAR(?datetime) AS ?year). "+          
                         "FILTER(?year ="+year+")."+  
                         "}Group BY ?offenseType";
+        }
+        else
+        {
+            query = "SELECT ?offenseType (COUNT(DISTINCT ?crime) as ?Count) WHERE {"+
+                        "?crime rdf:type crimewatch:Crime ;"+
+                        " crimewatch:hasPerpetrator ?perp;"+
+                        "crimewatch:hasOffenseType ?offenseType;"+
+                        "crimewatch:occuredDateTime ?datetime;"+
+                        "BIND(YEAR(?datetime) AS ?year). "+ 
+                        "?perp crimewatch:hasSex ?sex."+      
+                        "FILTER(?year ="+ year +" && ?sex ='"+ sex +"')."+  
+                        "}Group BY ?offenseType";
+
+        }
 
         ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
         Map<String, Integer> crimeTypeMap = new HashMap<>();
