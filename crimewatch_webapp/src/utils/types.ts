@@ -1,4 +1,4 @@
-export interface NewsArticle {
+  export interface NewsArticle {
     title: string;
     description: string;
     author: string;
@@ -27,4 +27,15 @@ interface PieChartDataset {
 export interface PieChartData {
   labels: string[];
   datasets: PieChartDataset[];
+}
+
+export interface LineChartData {
+  labels: string[];
+  datasets: {
+    label: string;
+    data: number[];
+    fill?: boolean;
+    borderColor: string;
+    tension?: number;
+  }[];
 }
