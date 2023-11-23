@@ -17,3 +17,27 @@ export async function fetchNews(): Promise<NewsArticle[]> {
     return [];
   }
 }
+
+const URL = "http://localhost:8082"
+
+export async function getYears(): Promise<number[]> {
+  try {
+    const response = await axios.get<number[]>(`${URL}/getYears`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching years:', error);
+    return [];
+  }
+}
+
+
+export async function getCrimeTypeCountByYear(year: number): Promise<{ [key: string]: number }> {
+  try {
+    const response = await axios.get<{ [key: string]: number }>(`${URL}/getCrimeTypeCountByYear?year=${year}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching crime type count for year ${year}:`, error);
+    return {};
+  }
+}

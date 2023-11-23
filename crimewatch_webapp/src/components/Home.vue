@@ -62,10 +62,7 @@
         </p>
 
         <p class="mt-2 text-center text-xl">
-          <router-link
-            to="/complaint-page"
-            class="text-blue-500 hover:underline"
-          >
+          <router-link to="/complaint" class="text-blue-500 hover:underline">
             Get Started
           </router-link>
         </p>
