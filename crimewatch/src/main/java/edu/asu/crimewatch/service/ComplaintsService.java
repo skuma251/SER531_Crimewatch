@@ -101,7 +101,7 @@ public class ComplaintsService{
     }
 
 
-    public Map<String, List<Map<String, Integer>>> fetchBoroMonthlyStats(int year){
+    public Map<String, List<Integer>> fetchBoroMonthlyStats(int year){
 
         String query = "SELECT ?BoroName ?month (COUNT( Distinct ?crime) as ?Count) WHERE {"+
                         "?crime rdf:type crimewatch:Crime ;"+
@@ -116,8 +116,8 @@ public class ComplaintsService{
                         "ORDERBY ?BoroName ?month";
 
         ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
-        Map<String, List<Map<String, Integer>>> boroStatsMap = new HashMap<String,List<Map<String,Integer>>>();
-        List<Map<String,Integer>> listMonthCount = new ArrayList<Map<String,Integer>>();
+        Map<String, List<Integer>> boroStatsMap = new HashMap<String,List<Integer>>();
+        List<Integer> listMonthCount = new ArrayList<Integer>();
         String boroName = "";
          while( response.hasNext())
         {
@@ -128,12 +128,8 @@ public class ComplaintsService{
                 boroStatsMap.put(boroName,listMonthCount);
                 listMonthCount.clear();
             }
-            
-            Map<String, Integer> monthcount = new HashMap<String, Integer>();
-            int month = soln.getLiteral("?month").getInt();
             int count = soln.getLiteral("?Count").getInt();
-            monthcount.put(monthsArray[month-1],count);
-            listMonthCount.add(monthcount);
+            listMonthCount.add(count);
             boroName = soln.getLiteral("?BoroName").getString();
         }
         boroStatsMap.put(boroName,listMonthCount);
