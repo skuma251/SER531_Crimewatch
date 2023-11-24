@@ -48,3 +48,14 @@ export async function getCrimeTypeCountByYear(year: number, sex: String): Promis
     return {};
   }
 }
+
+export async function getBoroCrimeCountByYear(year: number): Promise<{ [key: string]: number }> {
+
+  try {
+    const response = await axios.get<{ [key: string]: number }>(`${URL}/complaints/getBoroCrimeCountByYear?year=${year}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching crime type count for year ${year}:`, error);
+    return {};
+  }
+}
