@@ -59,3 +59,15 @@ export async function getBoroCrimeCountByYear(year: number): Promise<{ [key: str
     return {};
   }
 }
+
+export async function getBoroMonthlyStatsByYear(year: number): Promise<{ [key: string]: { [key: string]: number } }> {
+  try {
+    const response = await axios.get<{ [key: string]: { [key: string]: number } }>(`${URL}/complaints/getBoroMonthlyStats?year=${year}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching borough-wise monthly stats for year ${year}:`, error);
+    return {};
+  }
+}
+
+
