@@ -1,30 +1,50 @@
 <template>
-  <div class="w-full h-full">
-    <canvas id="chart"></canvas>
+  <div>
+    <canvas ref="chartCanvas" :id="chartId"></canvas>
   </div>
 </template>
 
 <script setup lang="ts">
-import Chart from "chart.js/auto";
-import { onMounted } from "vue";
-import {
-  SupportedChartType,
-  BarChartData,
-  PieChartData,
-  LineChartData,
-} from "../../utils/types";
+import { ref, onMounted, watch, onBeforeUnmount, defineProps } from "vue";
+import * as ChartJs from "chart.js/auto";
+import { BarChartData, PieChartData, LineChartData } from "../../utils/types";
 
 const props = defineProps<{
-  type: SupportedChartType;
-  data: BarChartData | PieChartData | LineChartData;
+  chartType: string;
+  chartData: BarChartData | PieChartData | LineChartData | undefined;
 }>();
 
-onMounted(() => {
-  const chrt = document.getElementById("chart") as HTMLCanvasElement;
-  const chart = new Chart(chrt, {
-    type: props.type,
-    data: props.data,
-  });
-  chart;
+const chartId = "chart";
+const chartCanvas = ref<HTMLCanvasElement | null>(null);
+let chartInstance: ChartJs.Chart | null = null;
+
+const renderChart = () => {
+  const ctx = chartCanvas.value?.getContext("2d");
+  if (ctx && props.chartData) {
+    chartInstance = new ChartJs.Chart(ctx, {
+      type: props.chartType as ChartJs.ChartType,
+      data: props.chartData,
+      options: {},
+    });
+  }
+};
+
+onMounted(renderChart);
+
+watch(
+  () => props.chartData,
+  () => {
+    if (chartInstance) {
+      chartInstance.destroy();
+      renderChart();
+    }
+  }
+);
+
+onBeforeUnmount(() => {
+  if (chartInstance) {
+    chartInstance.destroy();
+    chartInstance = null;
+  }
 });
 </script>
