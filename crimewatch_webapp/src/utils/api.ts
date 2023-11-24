@@ -22,7 +22,7 @@ const URL = "http://localhost:8082"
 
 export async function getYears(): Promise<number[]> {
   try {
-    const response = await axios.get<number[]>(`${URL}/getYears`);
+    const response = await axios.get<number[]>(`${URL}/complaints/getYears`);
     return response.data;
     
   } catch (error) {
@@ -32,9 +32,16 @@ export async function getYears(): Promise<number[]> {
 }
 
 
-export async function getCrimeTypeCountByYear(year: number): Promise<{ [key: string]: number }> {
+export async function getCrimeTypeCountByYear(year: number, sex: String): Promise<{ [key: string]: number }> {
+  let sexChar = "U"
+  if ( sex === "Male") {
+    sexChar = "M"
+  }
+  else {
+    sexChar = "F"
+  }
   try {
-    const response = await axios.get<{ [key: string]: number }>(`${URL}/getCrimeTypeCountByYear?year=${year}`);
+    const response = await axios.get<{ [key: string]: number }>(`${URL}/complaints/getCrimeTypeCountByYear?year=${year}&sex=${sexChar}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching crime type count for year ${year}:`, error);

@@ -47,9 +47,9 @@ const generateRandomColor = () => {
   )}, ${Math.floor(Math.random() * 256)})`;
 };
 
-const fetchCrimeTypeCountByYear = async (year: number) => {
+const fetchCrimeTypeCountByYear = async (year: number, sex: String) => {
   try {
-    const crimeCount = await getCrimeTypeCountByYear(year);
+    const crimeCount = await getCrimeTypeCountByYear(year, sex);
     const labels = Object.keys(crimeCount);
     const crimeData = Object.values(crimeCount);
     const backgroundColor = Array.from({ length: labels.length }, () =>
@@ -69,7 +69,7 @@ const fetchYears = async () => {
     const years = await getYears();
     yearList.value = years;
     selectedYear.value = yearList.value[0];
-    fetchCrimeTypeCountByYear(selectedYear.value);
+    fetchCrimeTypeCountByYear(selectedYear.value, selectedSex.value);
   } catch (error) {
     console.error("Error fetching years:", error);
   }
@@ -81,19 +81,24 @@ fetchYears();
 <template>
   <div
     v-if="yearList.length > 0"
-    class="card w-full md:w-1/2 overflow-auto bg-base-100 shadow-2xl flex items-center justify-center"
+    class="card w-full md:w-1/2 md:h-full overflow-auto bg-base-100 shadow-2xl"
   >
     <div class="card-body">
-      <div class="flex mb-4 gap-2">
+      <div class="flex mb-4 space-x-2">
         <div class="w-1/2">
-          <label class="text-black text-sm flex flex-col items-center"
-            >Select year</label
-          >
+          <label class="text-black text-sm flex flex-col items-center">
+            Select year
+          </label>
           <select
             v-model="selectedYear"
             class="select select-xs select-bordered w-full"
           >
-            <option v-for="year in yearList" :key="year" :value="year">
+            <option
+              v-for="year in yearList"
+              :key="year"
+              :value="year"
+              class="items-center"
+            >
               {{ year }}
             </option>
           </select>
@@ -114,7 +119,7 @@ fetchYears();
       </div>
       <div class="flex items-center justify-center -mt-4">
         <button
-          @click="fetchCrimeTypeCountByYear(selectedYear!)"
+          @click="fetchCrimeTypeCountByYear(selectedYear!, selectedSex)"
           class="btn btn-xs btn-primary w-16"
         >
           Load
@@ -122,7 +127,7 @@ fetchYears();
       </div>
       <div
         v-if="data.labels.length > 0"
-        class="chart-container w-96 h-96 flex items-center justify-center"
+        class="h-96 flex items-center justify-center"
       >
         <Chart :type="type" :data="data" :key="chartKey" />
       </div>

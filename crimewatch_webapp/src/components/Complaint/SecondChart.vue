@@ -100,7 +100,6 @@ fetchYears();
       <div class="flex items-center justify-center -mt-4">
         <button class="btn btn-xs btn-primary w-16">Load</button>
       </div>
-      <!-- First Chart -->
       <div
         class="chart-container w-full h-1/2 flex items-center justify-center"
       >
