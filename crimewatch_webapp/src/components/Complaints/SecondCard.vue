@@ -59,7 +59,6 @@ const fetchYears = async () => {
     yearList.value = years;
     selectedYear.value = yearList.value[0];
     fetchBoroCrimeCountByYear(selectedYear.value);
-    fetchBoroMonthlyStatsByYear(selectedYear.value);
   } catch (error) {
     console.error("Error fetching years:", error);
   }
@@ -77,6 +76,7 @@ const fetchBoroCrimeCountByYear = async (year: number) => {
     barChartdata.datasets[0].data = crimeData;
     barChartdata.datasets[0].backgroundColor = backgroundColor;
     barChartKey++;
+    fetchBoroMonthlyStatsByYear(selectedYear.value!);
   } catch (error) {
     console.error("Error fetching years:", error);
   }
@@ -88,15 +88,19 @@ const fetchBoroMonthlyStatsByYear = async (year: number) => {
     const labels = Object.keys(crimeStats);
     const dataValues = Object.values(crimeStats);
 
-    lineChartdata.labels = labels;
+    lineChartdata.datasets = labels.map((label, index) => {
+      const multipliedData = Object.values(dataValues[index]).map(
+        (value: number) => value * (index + 1)
+      );
 
-    lineChartdata.datasets = labels.map((label, index) => ({
-      label,
-      data: Object.values(dataValues[index]) as number[],
-      fill: false,
-      borderColor: generateRandomColor(),
-      tension: 0.1,
-    }));
+      return {
+        label,
+        data: multipliedData,
+        fill: false,
+        borderColor: generateRandomColor(),
+        tension: 0.1,
+      };
+    });
 
     console.log(lineChartdata);
 

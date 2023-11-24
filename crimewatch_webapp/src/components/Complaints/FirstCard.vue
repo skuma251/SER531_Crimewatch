@@ -99,7 +99,7 @@ fetchYears();
         </button>
       </div>
       <div v-if="data.labels.length > 0">
-        <Chart :chartType="'doughnut'" :chartData="data" :key="chartKey" />
+        <Chart :chartType="'pie'" :chartData="data" :key="chartKey" />
       </div>
     </div>
   </div>
