@@ -41,7 +41,7 @@ public class ComplaintsController {
 
     @GetMapping("/getBoroMonthlyStats")
     ResponseEntity<?> getBoroMonthlyStats(@RequestParam("year") int year) {
-        Map<String, List<Map<Integer, Integer>>> boroMonthlyStats = complaintsService.fetchBoroMonthlyStats(year);
+        Map<String, List<Map<String, Integer>>> boroMonthlyStats = complaintsService.fetchBoroMonthlyStats(year);
         return ResponseEntity.ok(boroMonthlyStats);
     }
 
