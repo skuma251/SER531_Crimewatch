@@ -1,6 +1,10 @@
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-import { getYears, getBoroCrimeCountByYear } from "../../utils/api";
+import {
+  getYears,
+  getBoroCrimeCountByYear,
+  getBoroMonthlyStatsByYear,
+} from "../../utils/api";
 import { generateRandomColor } from "../../utils/index";
 import { BarChartData, LineChartData } from "../../utils/types";
 import Chart from "../Chart/Chart.vue";
@@ -22,26 +26,32 @@ let barChartdata = reactive<BarChartData>({
   ],
 });
 
-const labels = ["Jan", "Feb", "Mar", "Apr", "May"];
-const data2 = {
-  labels: labels,
+let lineChartKey = 0;
+let lineChartdata = reactive<LineChartData>({
+  labels: [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+  ],
   datasets: [
     {
-      label: "My First Dataset",
-      data: [65, 59, 80, 81, 56, 55, 40],
+      label: "Crime for each boro based on year",
+      data: [],
       fill: false,
-      borderColor: "rgb(75, 192, 192)",
-      tension: 0.1,
-    },
-    {
-      label: "My Second Dataset",
-      data: [88, 55, 80, 60, 56, 100, 20],
-      fill: false,
-      borderColor: "rgb(85, 90, 170)",
+      borderColor: generateRandomColor(),
       tension: 0.1,
     },
   ],
-};
+});
 
 const fetchYears = async () => {
   try {
@@ -49,6 +59,7 @@ const fetchYears = async () => {
     yearList.value = years;
     selectedYear.value = yearList.value[0];
     fetchBoroCrimeCountByYear(selectedYear.value);
+    fetchBoroMonthlyStatsByYear(selectedYear.value);
   } catch (error) {
     console.error("Error fetching years:", error);
   }
@@ -66,6 +77,30 @@ const fetchBoroCrimeCountByYear = async (year: number) => {
     barChartdata.datasets[0].data = crimeData;
     barChartdata.datasets[0].backgroundColor = backgroundColor;
     barChartKey++;
+  } catch (error) {
+    console.error("Error fetching years:", error);
+  }
+};
+
+const fetchBoroMonthlyStatsByYear = async (year: number) => {
+  try {
+    const crimeStats = await getBoroMonthlyStatsByYear(year);
+    const labels = Object.keys(crimeStats);
+    const dataValues = Object.values(crimeStats);
+
+    lineChartdata.labels = labels;
+
+    lineChartdata.datasets = labels.map((label, index) => ({
+      label,
+      data: Object.values(dataValues[index]) as number[],
+      fill: false,
+      borderColor: generateRandomColor(),
+      tension: 0.1,
+    }));
+
+    console.log(lineChartdata);
+
+    lineChartKey++;
   } catch (error) {
     console.error("Error fetching years:", error);
   }
@@ -109,8 +144,12 @@ fetchYears();
           :key="barChartKey"
         />
       </div>
-      <div v-if="data.labels.length > 0">
-        <Chart :chartType="'line'" :chartData="data" :key="chartKey" />
+      <div v-if="lineChartdata.datasets.length > 0">
+        <Chart
+          :chartType="'line'"
+          :chartData="lineChartdata"
+          :key="lineChartKey"
+        />
       </div>
     </div>
   </div>

@@ -11,7 +11,7 @@ import { BarChartData, PieChartData, LineChartData } from "../../utils/types";
 
 const props = defineProps<{
   chartType: string;
-  chartData: BarChartData | PieChartData | LineChartData | undefined;
+  chartData: LineChartData | BarChartData | PieChartData | undefined;
 }>();
 
 const chartId = "chart";

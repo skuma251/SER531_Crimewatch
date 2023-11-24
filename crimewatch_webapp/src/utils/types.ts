@@ -4,7 +4,6 @@
     author: string;
   }
 
-export type SupportedChartType = 'bar' | 'line' | 'pie';
 
 export interface BarChartData {
   labels: string[];
