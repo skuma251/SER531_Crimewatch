@@ -17,6 +17,7 @@ import java.util.Collections;
 public class ComplaintsService{
 
     static String complaintsURL = "http://localhost:3030/Complaints_Data";
+    static String[] monthsArray = {"Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"};
     public List<Integer> fetchYearValues(){
 
         String query = "SELECT DISTINCT ?YEAR WHERE {"+
@@ -39,10 +40,8 @@ public class ComplaintsService{
 
     public Map<String,Integer> fetchCrimeTypeCountByYear(int year, String sex){
         String query="";
-        System.out.println(sex);
         if(sex.equals("none"))
         {
-            System.out.println("In this loop");
             query = "SELECT ?offenseType (COUNT(DISTINCT ?crime) as ?Count) WHERE {"+
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:hasOffenseType ?offenseType;"+
@@ -102,7 +101,7 @@ public class ComplaintsService{
     }
 
 
-    public Map<String, Map<Integer, Integer>> fetchBoroMonthlyStats(int year){
+    public Map<String, List<Map<String, Integer>>> fetchBoroMonthlyStats(int year){
 
         String query = "SELECT ?BoroName ?month (COUNT( Distinct ?crime) as ?Count) WHERE {"+
                         "?crime rdf:type crimewatch:Crime ;"+
@@ -117,16 +116,28 @@ public class ComplaintsService{
                         "ORDERBY ?BoroName ?month";
 
         ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
-        Map<String, Map<Integer, Integer>> boroStatsMap = new HashMap<String,Map<Integer,Integer>>();
+        Map<String, List<Map<String, Integer>>> boroStatsMap = new HashMap<String,List<Map<String,Integer>>>();
+        List<Map<String,Integer>> listMonthCount = new ArrayList<Map<String,Integer>>();
+        String boroName = "";
          while( response.hasNext())
         {
-
             QuerySolution soln = response.nextSolution();
-            Map<Integer, Integer> monthcount = new HashMap<Integer, Integer>();
-            monthcount.put(soln.getLiteral("?month").getInt(),soln.getLiteral("?Count").getInt());
-            boroStatsMap.put(soln.getLiteral("?BoroName").getString(),monthcount);
+            if(!(boroName.equals(soln.getLiteral("?BoroName").getString())) && !(boroName.equals("")))
+            {
+               
+                boroStatsMap.put(boroName,listMonthCount);
+                listMonthCount.clear();
+            }
+            
+            Map<String, Integer> monthcount = new HashMap<String, Integer>();
+            int month = soln.getLiteral("?month").getInt();
+            int count = soln.getLiteral("?Count").getInt();
+            monthcount.put(monthsArray[month-1],count);
+            listMonthCount.add(monthcount);
+            boroName = soln.getLiteral("?BoroName").getString();
         }
-      return boroStatsMap;
+        boroStatsMap.put(boroName,listMonthCount);
+        return boroStatsMap;
 
     }
 
