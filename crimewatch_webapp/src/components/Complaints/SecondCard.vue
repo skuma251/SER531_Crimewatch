@@ -90,7 +90,7 @@ const fetchBoroMonthlyStatsByYear = async (year: number) => {
 
     lineChartdata.datasets = labels.map((label, index) => {
       const multipliedData = Object.values(dataValues[index]).map(
-        (value: number) => value * (index + 1)
+        (value: number) => value * 1
       );
 
       return {
@@ -101,8 +101,6 @@ const fetchBoroMonthlyStatsByYear = async (year: number) => {
         tension: 0.1,
       };
     });
-
-    console.log(lineChartdata);
 
     lineChartKey++;
   } catch (error) {
