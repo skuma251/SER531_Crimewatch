@@ -116,27 +116,20 @@ public class ComplaintsService{
                         "ORDERBY ?BoroName ?month";
 
         ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
-        Map<String, List<Integer>> boroStatsMap = new HashMap<String,List<Integer>>();
-        List<Integer> listMonthCount = new ArrayList<Integer>();
+        Map<String, List<Integer>> boroStatsMap = new HashMap<>();
+        List<Integer> listMonthCount = new ArrayList<>();
         String boroName = "";
          while( response.hasNext())
         {
             QuerySolution soln = response.nextSolution();
-            if(!(boroName.equals(soln.getLiteral("?BoroName").getString())) && !(boroName.equals("")))
-            {
-               
-                boroStatsMap.put(boroName,listMonthCount);
-                listMonthCount.clear();
-            }
-            int count = soln.getLiteral("?Count").getInt();
-            listMonthCount.add(count);
             boroName = soln.getLiteral("?BoroName").getString();
+            if (!boroStatsMap.containsKey(boroName)) {
+                boroStatsMap.put(boroName, new ArrayList<>());
+            }      
+            int count = soln.getLiteral("?Count").getInt();
+            boroStatsMap.get(boroName).add(count);       
         }
-        boroStatsMap.put(boroName,listMonthCount);
         return boroStatsMap;
-
     }
-
-
 
 }
