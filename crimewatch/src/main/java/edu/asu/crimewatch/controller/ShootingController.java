@@ -26,7 +26,13 @@ public class ShootingController {
         return ResponseEntity.ok(yearList);
     }
 
-    @GetMapping("/getPerpCountByBoro")
+    @GetMapping("/getVictimCountByBoro")
+    ResponseEntity<?> getVictimCountByBoro(@RequestParam("year") int year, @RequestParam("boro") String boro) {
+        Map<String, Integer> boroVictimCount = shootingService.getVictimCountByRace(year,boro);
+        return ResponseEntity.ok(boroVictimCount);
+    }
+
+     @GetMapping("/getPerpCountByBoro")
     ResponseEntity<?> getPerpCountByBoro(@RequestParam("year") int year, @RequestParam("boro") String boro) {
         Map<String, Integer> boroPerpCount = shootingService.getPerpCountByRace(year,boro);
         return ResponseEntity.ok(boroPerpCount);

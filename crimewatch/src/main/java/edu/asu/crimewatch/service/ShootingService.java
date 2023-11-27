@@ -39,7 +39,7 @@ public class ShootingService{
         return yearList;
     }
 
-     public Map<String,Integer>  getPerpCountByRace(int year, String boro){
+    public Map<String,Integer>  getVictimCountByRace(int year, String boro){
 
         String query = "SELECT ?Race (COUNT( Distinct ?crime) as ?Count) WHERE {"+
                         "?crime rdf:type crimewatch:Crime ;"+
@@ -47,6 +47,33 @@ public class ShootingService{
                         "crimewatch:occuredDateTime ?datetime;"+
   						"crimewatch:hasVictim ?Victim."+
   						"?Victim crimewatch:hasRace ?Race."+
+                        "BIND(YEAR(?datetime) AS ?year)."+
+                        "?Location crimewatch:underArea ?Boro."+
+                        "?Boro crimewatch:hasName ?BoroName."+
+                        "FILTER(?BoroName ='"+boro+"')."+
+  						"FILTER(?year = "+year+")."+
+                        "} GROUP BY ?Race";
+
+        ResultSet response = OWLReader.runSparQLQuery(shootingURL, query);
+        Map<String, Integer> victimCountRaceMap = new HashMap<>();
+         while( response.hasNext())
+        {
+
+            QuerySolution soln = response.nextSolution();
+            victimCountRaceMap.put(soln.getLiteral("?Race").getString(),soln.getLiteral("?Count").getInt());
+        }
+      return victimCountRaceMap;
+
+    }
+
+    public Map<String,Integer>  getPerpCountByRace(int year, String boro){
+
+        String query = "SELECT ?Race (COUNT( Distinct ?crime) as ?Count) WHERE {"+
+                        "?crime rdf:type crimewatch:Crime ;"+
+                        "crimewatch:occuredIn ?Location;"+
+                        "crimewatch:occuredDateTime ?datetime;"+
+  						"crimewatch:hasPerpetrator ?Perp."+
+  						"?Perp crimewatch:hasRace ?Race."+
                         "BIND(YEAR(?datetime) AS ?year)."+
                         "?Location crimewatch:underArea ?Boro."+
                         "?Boro crimewatch:hasName ?BoroName."+
