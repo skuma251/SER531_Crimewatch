@@ -38,7 +38,7 @@ public class ShootingController {
         return ResponseEntity.ok(boroPerpCount);
     }
 
-    @GetMapping("/getBoroCountByYear")
+    @GetMapping("/")
     ResponseEntity<?> getBoroCountByYear(@RequestParam("year") int year) {
         Map<String, Integer> boroCount = shootingService.getCountByYear(year);
         return ResponseEntity.ok(boroCount);
