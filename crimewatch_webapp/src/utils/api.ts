@@ -111,4 +111,25 @@ export async function getCountByBoro(year: number): Promise<{ [key: string]: { [
   }
 }
 
+export async function getYearsHateCrime(): Promise<number[]> {
+  try {
+    const response = await axios.get<number[]>(`${URL}/hatecrime/getYears`);
+    return response.data;
+    
+  } catch (error) {
+    console.error('Error fetching years for shooting data:', error);
+    return [];
+  }
+}
+
+export async function getHateCrimeCountByBoro(year: number): Promise<{ [key: string]: { [key: string]: number } }> {
+  try {
+    const response = await axios.get<{ [key: string]: { [key: string]: number } }>(`${URL}/hatecrime/getBoroCountByYear?year=${year}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching perpetrator count for year ${year}:`, error);
+    return {};
+  }
+}
+
 
