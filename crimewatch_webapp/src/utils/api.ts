@@ -76,7 +76,7 @@ export async function getYearsShooting(): Promise<number[]> {
     return response.data;
     
   } catch (error) {
-    console.error('Error fetching years:', error);
+    console.error('Error fetching years for shooting data:', error);
     return [];
   }
 }
@@ -86,7 +86,7 @@ export async function getVictimCountByRace(year: number, boro:String): Promise<{
     const response = await axios.get<{ [key: string]: { [key: string]: number } }>(`${URL}/shooting/getVictimCountByBoro?year=${year}&boro=${boro}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching victim count for year ${year} and boro ${boro}`, error);
+    console.error(`Error fetching victim count for year ${year} and boro ${boro}:`, error);
     return {};
   }
 }
@@ -96,7 +96,17 @@ export async function getPerpCountByRace(year: number, boro:String): Promise<{ [
     const response = await axios.get<{ [key: string]: { [key: string]: number } }>(`${URL}/shooting/getPerpCountByBoro?year=${year}&boro=${boro}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching perpetrator count for year ${year} and boro ${boro}`, error);
+    console.error(`Error fetching perpetrator count for year ${year} and boro ${boro}:`, error);
+    return {};
+  }
+}
+
+export async function getCountByBoro(year: number): Promise<{ [key: string]: { [key: string]: number } }> {
+  try {
+    const response = await axios.get<{ [key: string]: { [key: string]: number } }>(`${URL}/shooting/getBoroCountByYear?year=${year}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching perpetrator count for year ${year}:`, error);
     return {};
   }
 }

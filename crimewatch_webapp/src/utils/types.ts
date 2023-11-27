@@ -38,3 +38,13 @@ export interface LineChartData {
     tension?: number;
   }[];
 }
+
+interface PolarAreaChartDatasets{
+  label: string;
+  data: number[];
+  backgroundColor: string[];
+}
+export interface PolarAreaChart{
+  labels: string[];
+  datasets: PolarAreaChartDatasets[];
+}
