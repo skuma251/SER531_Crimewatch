@@ -7,11 +7,11 @@
 <script setup lang="ts">
 import { ref, onMounted, watch, onBeforeUnmount, defineProps } from "vue";
 import * as ChartJs from "chart.js/auto";
-import { BarChartData, PieChartData, LineChartData } from "../../utils/types";
+import { BarChartData, PieChartData, LineChartData, PolarAreaChart } from "../../utils/types";
 
 const props = defineProps<{
   chartType: string;
-  chartData: LineChartData | BarChartData | PieChartData | undefined;
+  chartData: LineChartData | BarChartData | PieChartData | PolarAreaChart | undefined;
 }>();
 
 const chartId = "chart";

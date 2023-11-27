@@ -93,5 +93,29 @@ public class ShootingService{
 
     }
 
+    public Map<String,Integer>  getCountByYear(int year){
+
+        String query = "SELECT ?BoroName (COUNT( Distinct ?crime) as ?Count) WHERE {"+
+                        "?crime rdf:type crimewatch:Crime ;"+
+                        "crimewatch:occuredIn ?Location;"+
+                        "crimewatch:occuredDateTime ?datetime;"+
+                        "BIND(YEAR(?datetime) AS ?year)."+
+                        "?Location crimewatch:underArea ?Boro."+
+                        "?Boro crimewatch:hasName ?BoroName."+
+  						"FILTER(?year = "+year+")."+
+                        "} GROUP BY ?BoroName";
+
+        ResultSet response = OWLReader.runSparQLQuery(shootingURL, query);
+        Map<String, Integer> boroCountMap = new HashMap<>();
+         while( response.hasNext())
+        {
+
+            QuerySolution soln = response.nextSolution();
+            boroCountMap.put(soln.getLiteral("?BoroName").getString(),soln.getLiteral("?Count").getInt());
+        }
+      return boroCountMap;
+
+    }
+
 
 }
