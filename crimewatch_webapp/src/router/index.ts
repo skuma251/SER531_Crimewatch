@@ -4,6 +4,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import Home from "@components/Home.vue";
 import About from "@components/About.vue"
 import Complaint from "@components/Complaints/Complaints.vue"
+import Shooting from "@components/Shootings/Shooting.vue"
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     path: "/complaint",
     component: Complaint,
     name: "Complaint",
+  },
+  {
+    path: "/shooting",
+    component: Shooting,
+    name: "Shooting",
   },
 ];
 
