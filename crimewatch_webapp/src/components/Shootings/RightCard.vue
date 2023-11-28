@@ -54,7 +54,7 @@ fetchYears();
 <template>
   <div class="card w-full bg-base-100 shadow-xl">
     <div class="card-body" v-if="yearList.length > 0">
-        <label class="flex flex-col items-center text-black text-sm">
+      <label class="flex flex-col items-center text-black text-sm">
         Select year
       </label>
       <select
@@ -72,7 +72,7 @@ fetchYears();
       </select>
       <div class="card-actions justify-center">
         <button
-          @click="fetchCountByBoro(selectedYear)"
+          @click="fetchCountByBoro(selectedYear!)"
           class="btn btn-xs btn-primary"
         >
           Load
