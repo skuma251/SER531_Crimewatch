@@ -27,23 +27,6 @@
       </div>
       <div v-if="data.labels.length > 0">
         <Chart :chartType="'doughnut'" :chartData="data" :key="chartKey" />
-        <!-- <vue-word-cloud
-          style="height: 480px; width: 640px"
-          :words="transformedWords"
-          :color="
-        ([, weight]: [string, number]) =>
-          weight > 20
-            ? generateRandomColor()
-            : weight > 15
-            ? generateRandomColor()
-            : weight > 10
-            ? generateRandomColor()
-            : weight > 5
-            ? generateRandomColor()
-            : generateRandomColor()
-      "
-          font-family="Roboto"
-        /> -->
       </div>
     </div>
   </div>
@@ -51,7 +34,6 @@
 
 <script setup lang="ts">
 import { ref, reactive } from "vue";
-// import VueWordCloud from "vuewordcloud";
 import Chart from "../Chart/Chart.vue";
 import { getYearsHateCrime, getBiasCountByYear } from "../../utils/api";
 import { generateRandomColor } from "../../utils/index";
@@ -84,19 +66,6 @@ const fetchYears = async () => {
     console.error("Error fetching years:", error);
   }
 };
-
-// const fetchBiasCountByYear = async (year: number) => {
-//   try {
-//     const hatecrimeCount = await getBiasCountByYear(year);
-//     const words = Object.entries(hatecrimeCount).map(([word, count]) => [
-//       word,
-//       count,
-//     ]);
-//     transformedWords.value = words;
-//   } catch (error) {
-//     console.error("Error fetching years:", error);
-//   }
-// };
 
 const fetchBiasCountByYear = async (year: number) => {
   try {

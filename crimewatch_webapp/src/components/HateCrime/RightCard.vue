@@ -56,8 +56,7 @@ const fetchCountByBoro = async (year: number) => {
     for (let i = 0; i < labels.length; i++) {
       percentagesByBorough[labels[i]] = percentages[i];
     }
-
-    console.log(percentagesByBorough);
+    
     barChartKey++;
   } catch (error) {
     console.error("Error fetching years:", error);

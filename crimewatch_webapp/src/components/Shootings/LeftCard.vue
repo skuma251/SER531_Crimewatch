@@ -62,10 +62,7 @@ const fetchVictimCountByRace = async (year: number, boro: String) => {
       generateRandomColor()
     );
     barChartdata.labels = labels;
-
-    console.log(victimData);
     barChartdata.datasets[0].data = victimData;
-    console.log(barChartdata.datasets[0].data);
     barChartdata.datasets[0].backgroundColor = backgroundColor;
     barChartKey++;
     fetchPerpCountByRace(year, boro);
