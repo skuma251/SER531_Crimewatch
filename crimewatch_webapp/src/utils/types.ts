@@ -48,3 +48,5 @@ export interface PolarAreaChart{
   labels: string[];
   datasets: PolarAreaChartDatasets[];
 }
+
+export type WordEntry = [string:  number];

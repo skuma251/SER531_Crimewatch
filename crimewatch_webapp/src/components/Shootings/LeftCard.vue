@@ -11,9 +11,8 @@ import Chart from "../Chart/Chart.vue";
 
 const selectedYear = ref<number>();
 const selectedBoro = ref<string>("BRONX");
-const boroList = ["MANHATTAN", "BRONX", "BROOKLYN","STATEN ISLAND", "QUEENS"];
+const boroList = ["MANHATTAN", "BRONX", "BROOKLYN", "STATEN ISLAND", "QUEENS"];
 const yearList = ref<number[]>([]);
-
 
 let barChartKey = 0;
 let barChartdata = reactive<BarChartData>({
@@ -43,7 +42,6 @@ let barChartdata1 = reactive<BarChartData>({
   ],
 });
 
-
 const fetchYears = async () => {
   try {
     const years = await getYearsShooting();
@@ -55,7 +53,7 @@ const fetchYears = async () => {
   }
 };
 
-const fetchVictimCountByRace = async (year: number, boro:String) => {
+const fetchVictimCountByRace = async (year: number, boro: String) => {
   try {
     const victimCount = await getVictimCountByRace(year, boro);
     const labels = Object.keys(victimCount);
@@ -64,7 +62,10 @@ const fetchVictimCountByRace = async (year: number, boro:String) => {
       generateRandomColor()
     );
     barChartdata.labels = labels;
+
+    console.log(victimData);
     barChartdata.datasets[0].data = victimData;
+    console.log(barChartdata.datasets[0].data);
     barChartdata.datasets[0].backgroundColor = backgroundColor;
     barChartKey++;
     fetchPerpCountByRace(year, boro);
@@ -73,7 +74,7 @@ const fetchVictimCountByRace = async (year: number, boro:String) => {
   }
 };
 
-const fetchPerpCountByRace = async (year: number, boro:String) => {
+const fetchPerpCountByRace = async (year: number, boro: String) => {
   try {
     const perpCount = await getPerpCountByRace(year, boro);
     const labels = Object.keys(perpCount);
@@ -85,7 +86,6 @@ const fetchPerpCountByRace = async (year: number, boro:String) => {
     barChartdata1.datasets[0].data = perpData;
     barChartdata1.datasets[0].backgroundColor = backgroundColor;
     barChartKey1++;
-
   } catch (error) {
     console.error("Error fetching years:", error);
   }
@@ -132,7 +132,7 @@ fetchYears();
       </div>
       <div class="card-actions justify-center">
         <button
-          @click="fetchVictimCountByRace(selectedYear, selectedBoro)"
+          @click="fetchVictimCountByRace(selectedYear!, selectedBoro)"
           class="btn btn-xs btn-primary"
         >
           Load
