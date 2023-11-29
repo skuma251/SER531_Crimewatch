@@ -48,3 +48,17 @@ export interface PolarAreaChart{
   labels: string[];
   datasets: PolarAreaChartDatasets[];
 }
+
+interface MixedChartDataSet{
+  type: string,
+  label: string,
+  data: number[],
+  backgroundColor: string[]
+}
+
+export interface MixedChartData{
+  labels: string[],
+  datasets: MixedChartDataSet[]
+}
+
+

@@ -6,6 +6,8 @@ import About from "@components/About.vue"
 import Complaint from "@components/Complaints/Complaints.vue"
 import Shooting from "@components/Shootings/Shooting.vue"
 import HateCrime from "@components/HateCrime/HateCrime.vue"
+import Miscellaneous from "@components/Miscellaneous/Miscellaneous.vue"
+
 const routes = [
   {
     path: "/",
@@ -31,6 +33,11 @@ const routes = [
     path: "/hate-crime",
     component: HateCrime,
     name: "Hate-Crime",
+  },
+  {
+    path: "/miscellaneous",
+    component: Miscellaneous,
+    name: "Miscellaneous",
   },
 ];
 
