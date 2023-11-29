@@ -23,6 +23,7 @@ public class ShootingService{
         String query = "SELECT DISTINCT ?YEAR WHERE {"+
                         "?crime rdf:type crimewatch:Crime; "+
                         "crimewatch:occuredDateTime ?datetime; "+
+                        "crimewatch:hasDataSourceType 'Shooting Data'."+
                         "BIND(YEAR(?datetime) AS ?YEAR)."+
                         "FILTER(?YEAR >=2015)."+
                         "}";
@@ -45,7 +46,8 @@ public class ShootingService{
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:occuredIn ?Location;"+
                         "crimewatch:occuredDateTime ?datetime;"+
-  						"crimewatch:hasVictim ?Victim."+
+  						"crimewatch:hasVictim ?Victim;"+
+                        "crimewatch:hasDataSourceType 'Shooting Data'."+
   						"?Victim crimewatch:hasRace ?Race."+
                         "BIND(YEAR(?datetime) AS ?year)."+
                         "?Location crimewatch:underArea ?Boro."+
@@ -72,7 +74,8 @@ public class ShootingService{
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:occuredIn ?Location;"+
                         "crimewatch:occuredDateTime ?datetime;"+
-  						"crimewatch:hasPerpetrator ?Perp."+
+  						"crimewatch:hasPerpetrator ?Perp;"+
+                        "crimewatch:hasDataSourceType 'Shooting Data'."+
   						"?Perp crimewatch:hasRace ?Race."+
                         "BIND(YEAR(?datetime) AS ?year)."+
                         "?Location crimewatch:underArea ?Boro."+
@@ -99,6 +102,7 @@ public class ShootingService{
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:occuredIn ?Location;"+
                         "crimewatch:occuredDateTime ?datetime;"+
+                        "crimewatch:hasDataSourceType 'Shooting Data'."+
                         "BIND(YEAR(?datetime) AS ?year)."+
                         "?Location crimewatch:underArea ?Boro."+
                         "?Boro crimewatch:hasName ?BoroName."+
