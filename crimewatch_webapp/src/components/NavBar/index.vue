@@ -21,6 +21,9 @@
         <li>
           <router-link to="/hate-crime">Hate Crime</router-link>
         </li>
+        <li>
+          <router-link to="/miscellaneous">Miscellaneous</router-link>
+        </li>
       </nav>
     </div>
   </header>

@@ -16,13 +16,14 @@ import java.util.Collections;
 
 public class HateCrimeService{
 
-    static String hateCrimeURL = "http://localhost:3030/HateCrime_Data";
+    static String hateCrimeURL = "http://localhost:3030/Shooting_HateCrime_Data";
 
     public List<Integer> fetchYearValues(){
 
         String query = "SELECT DISTINCT ?YEAR WHERE {"+
                         "?crime rdf:type crimewatch:Crime; "+
                         "crimewatch:occuredDateTime ?datetime; "+
+                        "crimewatch:hasDataSourceType 'Hate Crime Data'."+
                         "BIND(YEAR(?datetime) AS ?YEAR)."+
                         "FILTER(?YEAR != 2023)."+
                         "}";
@@ -45,6 +46,7 @@ public class HateCrimeService{
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:occuredIn ?Location;"+
                         "crimewatch:occuredDateTime ?datetime;"+
+                        "crimewatch:hasDataSourceType 'Hate Crime Data'."+
                         "BIND(YEAR(?datetime) AS ?year)."+
                         "?Location crimewatch:underArea ?Boro."+
                         "?Boro crimewatch:hasName ?BoroName."+
@@ -67,6 +69,7 @@ public class HateCrimeService{
         String query = "SELECT ?BiasMotive (COUNT( Distinct ?crime) as ?Count) WHERE {"+
                         "?crime rdf:type crimewatch:Crime ;"+
                         "crimewatch:occuredDateTime ?datetime;"+
+                        "crimewatch:hasDataSourceType 'Hate Crime Data';"+
                         "crimewatch:hasBiasMotiveDesc ?BiasMotive."+
                         "BIND(YEAR(?datetime) AS ?year)."+
                         "FILTER(?year =" + year +")."+

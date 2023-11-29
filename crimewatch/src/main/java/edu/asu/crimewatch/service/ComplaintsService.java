@@ -117,7 +117,6 @@ public class ComplaintsService{
 
         ResultSet response = OWLReader.runSparQLQuery(complaintsURL, query);
         Map<String, List<Integer>> boroStatsMap = new HashMap<>();
-        List<Integer> listMonthCount = new ArrayList<>();
         String boroName = "";
          while( response.hasNext())
         {
