@@ -132,4 +132,14 @@ export async function getHateCrimeCountByBoro(year: number): Promise<{ [key: str
   }
 }
 
+export async function getShootingHateCrimeCountByYear(year: number): Promise<{ [key: string]: number }> {
+  try {
+    const response = await axios.get<{ [key: string]: number }>(`${URL}/miscellaneous/getComplaintShootingCountByYear?year=${year}`);
+    return response.data;
+  } catch (error) {
+    console.error(`Error fetching perpetrator count for year ${year}:`, error);
+    return {};
+  }
+}
+
 

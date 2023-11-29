@@ -16,7 +16,7 @@ import java.util.Collections;
 
 public class HateCrimeService{
 
-    static String hateCrimeURL = "http://localhost:3030/Shooting_Data";
+    static String hateCrimeURL = "http://localhost:3030/Shooting_HateCrime_Data";
 
     public List<Integer> fetchYearValues(){
 
