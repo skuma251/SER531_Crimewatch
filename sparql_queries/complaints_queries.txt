@@ -1,0 +1,7 @@
+
+//Query to fetch the years from the complaints dataset
+SELECT DISTINCT ?YEAR WHERE {
+        ?crime rdf:type crimewatch:Crime;
+        crimewatch:occuredDateTime ?datetime; 
+        BIND(YEAR(?datetime) AS ?YEAR).
+    }
