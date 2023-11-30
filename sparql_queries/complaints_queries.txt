@@ -1,0 +1,38 @@
+//This files all the SPARQL queries related to the complaints dataset
+
+//Query to fetch the years 
+
+SELECT DISTINCT ?YEAR WHERE {
+        ?crime rdf:type crimewatch:Crime;
+        crimewatch:occuredDateTime ?datetime; 
+        BIND(YEAR(?datetime) AS ?YEAR).
+    }
+
+
+//Query to fetch the different offense type based on year and sex. Here year and sex will the values selected by the user from the frontend
+
+SELECT ?offenseType (COUNT(DISTINCT ?crime) as ?Count) WHERE {
+    ?crime rdf:type crimewatch:Crime ;
+    crimewatch:hasPerpetrator ?perp;
+    crimewatch:hasOffenseType ?offenseType;
+    crimewatch:occuredDateTime ?datetime;
+    BIND(YEAR(?datetime) AS ?year). 
+    ?perp crimewatch:hasSex ?sex.      
+    FILTER(?year ="+ year +" && ?sex ='"+ sex +"').
+    } Group BY ?offenseType
+
+
+//Total complaints count based on year.
+
+SELECT ?BoroName (COUNT( Distinct ?crime) as ?Count) WHERE {
+    ?crime rdf:type crimewatch:Crime ;
+    crimewatch:occuredIn ?Location;
+    crimewatch:occuredDateTime ?datetime;
+    BIND(YEAR(?datetime) AS ?year).
+    ?Location crimewatch:underArea ?Boro.
+    ?Boro crimewatch:hasName ?BoroName.
+    FILTER(?year =" + year +").
+    } GROUP BY ?BoroName
+
+
+
