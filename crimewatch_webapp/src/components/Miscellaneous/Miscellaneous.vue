@@ -2,6 +2,7 @@
 import { ref, onMounted } from "vue";
 import Chart from 'chart.js/auto';
 import { getShootingHateCrimeCountByYear } from "../../utils/api";
+import { generateRandomColor } from "../../utils/index";
 
 const planetChartCanvas = ref<HTMLCanvasElement | null>(null);
 let planetChartKey = 0;
@@ -44,19 +45,25 @@ const fetchCountByYear = async (year: number) => {
     planetChartData.value.data.datasets[0].label = labels[0];
     planetChartData.value.data.datasets[0].type = "line";
     planetChartData.value.data.datasets[0].data = monthlyCount[0];
-    planetChartData.value.data.datasets[0].backgroundColor= "rgba(54,73,93,.5)",
-    planetChartData.value.data.datasets[0].borderColor= "#36495d",
+    planetChartData.value.data.datasets[0].backgroundColor= generateRandomColor(),
+    planetChartData.value.data.datasets[0].borderColor= generateRandomColor(),
     planetChartData.value.data.datasets[1].label = labels[1];
     planetChartData.value.data.datasets[1].type = "bar";
     planetChartData.value.data.datasets[1].data = monthlyCount[1];
-    planetChartData.value.data.datasets[1].backgroundColor= "rgba(71, 183,132,.5)";
-    planetChartData.value.data.datasets[1].borderColor = "#47b784";
+    planetChartData.value.data.datasets[1].backgroundColor= generateRandomColor();
+    planetChartData.value.data.datasets[1].borderColor = generateRandomColor();
     planetChartKey++;
     renderChart();
   } catch (error) {
     console.error("Error fetching data:", error);
   }
 };
+
+declare global {
+  interface Window {
+    myChart?: Chart;
+  }
+}
 
 const renderChart = () => {
   if (planetChartCanvas.value) {
@@ -113,7 +120,7 @@ renderChart();
             </select>
           </div>
           <div class="flex items-center">
-            <button class="btn btn-xs btn-primary" @click="fetchCountByYear(selectedYear)">Load</button>
+            <button class="btn btn-xs btn-primary" @click="fetchCountByYear(selectedYear!)">Load</button>
             <span v-if="isLoading" class="loading loading-spinner loading-lg"></span>
           </div>
         </div>

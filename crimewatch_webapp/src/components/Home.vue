@@ -137,7 +137,6 @@ async function fetchNYNews() {
     const articles = await fetchNews();
     newsArticles.value = articles;
     currentNews.value = newsArticles.value[currentNewsIndex.value];
-    console.log(currentNews.value);
   } catch (error) {
     console.error("Error fetching news:", error);
   }
