@@ -1,0 +1,85 @@
+//This files all the SPARQL queries related to the complaints dataset
+
+//Query to fetch the years 
+
+SELECT DISTINCT ?YEAR WHERE {
+        ?crime rdf:type crimewatch:Crime;
+        crimewatch:occuredDateTime ?datetime; 
+        BIND(YEAR(?datetime) AS ?YEAR).
+    }
+
+Result:
+
+[
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020
+]
+
+//Query to fetch the different offense type based on year and sex. Here year and sex will the values selected by the user from the frontend
+
+SELECT ?offenseType (COUNT(DISTINCT ?crime) as ?Count) WHERE {
+    ?crime rdf:type crimewatch:Crime ;
+    crimewatch:hasPerpetrator ?perp;
+    crimewatch:hasOffenseType ?offenseType;
+    crimewatch:occuredDateTime ?datetime;
+    BIND(YEAR(?datetime) AS ?year). 
+    ?perp crimewatch:hasSex ?sex.      
+    FILTER(?year ="+ 2018 +" && ?sex ='"+ M +"').
+    } Group BY ?offenseType
+
+Result:
+
+{
+    "UNLAWFUL POSS. WEAP. ON SCHOOL": 1,
+    "FELONY ASSAULT": 2118,
+    "ASSAULT 3 & RELATED OFFENSES": 2150,
+    "HOMICIDE-NEGLIGENT,UNCLASSIFIE": 2,
+    "CRIMINAL TRESPASS": 1701,
+    "DANGEROUS WEAPONS": 2660
+}
+
+//Total complaints count based on year.
+
+SELECT ?BoroName (COUNT( Distinct ?crime) as ?Count) WHERE {
+    ?crime rdf:type crimewatch:Crime ;
+    crimewatch:occuredIn ?Location;
+    crimewatch:occuredDateTime ?datetime;
+    BIND(YEAR(?datetime) AS ?year).
+    ?Location crimewatch:underArea ?Boro.
+    ?Boro crimewatch:hasName ?BoroName.
+    FILTER(?year =" + year +").
+    } GROUP BY ?BoroName
+
+Result:
+{
+    "MANHATTAN": 2405,
+    "BRONX": 2937,
+    "BROOKLYN": 3099,
+    "STATEN ISLAND": 439,
+    "QUEENS": 2369
+}
+
+//Monthly complaints count per month for a selected year and selected borough
+SELECT ?BoroName ?month (COUNT( Distinct ?crime) as ?Count) WHERE {
+            ?crime rdf:type crimewatch:Crime ;
+            crimewatch:occuredIn ?Location;
+            crimewatch:occuredDateTime ?datetime;
+            BIND(YEAR(?datetime) AS ?year).
+  		    BIND (MONTH(?datetime) AS ?month).
+            ?Location crimewatch:underArea ?Boro.
+            ?Boro crimewatch:hasName ?BoroName.
+            FILTER(?year ="+ 2019 +").
+            } GROUP BY ?BoroName ?month 
+            ORDERBY ?BoroName ?month
+
+Result:
+
+{"MANHATTAN":[204,185,191,205,225,189,208,224,196,207,190,181],
+"BRONX":[283,262,271,247,253,228,254,242,213,240,224,220],
+"BROOKLYN":[272,267,296,259,274,245,262,262,240,262,228,232],
+"STATEN ISLAND":[37,24,26,47,39,49,27,34,48,41,39,28],
+"QUEENS":[220,159,205,194,207,204,203,216,183,165,217,196]}

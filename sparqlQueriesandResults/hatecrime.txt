@@ -1,0 +1,68 @@
+//Getting year list
+
+SELECT DISTINCT ?YEAR WHERE {
+        ?crime rdf:type crimewatch:Crime; 
+        crimewatch:occuredDateTime ?datetime; 
+        crimewatch:hasDataSourceType 'Hate Crime Data'.
+        BIND(YEAR(?datetime) AS ?YEAR).
+        }
+
+Result:
+[
+    2019,
+    2020,
+    2021,
+    2022
+]
+
+//Hate Crime count for each borough for a year
+
+SELECT ?BoroName (COUNT( Distinct ?crime) as ?Count) WHERE {"+
+                        "?crime rdf:type crimewatch:Crime ;"+
+                        "crimewatch:occuredIn ?Location;"+
+                        "crimewatch:occuredDateTime ?datetime;"+
+                        "crimewatch:hasDataSourceType 'Hate Crime Data'."+
+                        "BIND(YEAR(?datetime) AS ?year)."+
+                        "?Location crimewatch:underArea ?Boro."+
+                        "?Boro crimewatch:hasName ?BoroName."+
+                        "FILTER(?year =" + 2019 +")."+
+                        "} GROUP BY ?BoroName";
+
+ Result:
+ {
+    "MANHATTAN": 86,
+    "BRONX": 21,
+    "BROOKLYN": 93,
+    "STATEN ISLAND": 18,
+    "QUEENS": 48
+}   
+
+//Different bias motive count for a year
+
+SELECT ?BiasMotive (COUNT( Distinct ?crime) as ?Count) WHERE {
+                        ?crime rdf:type crimewatch:Crime ;
+                        crimewatch:occuredDateTime ?datetime;
+                        crimewatch:hasDataSourceType 'Hate Crime Data';
+                        crimewatch:hasBiasMotiveDesc ?BiasMotive.
+                        BIND(YEAR(?datetime) AS ?year).
+                        FILTER(?year =" + 2021 +").
+                        } GROUP BY ?BiasMotive"
+
+Result:
+{
+    "ANTI-WHITE": 19,
+    "ANTI-FEMALE HOMOSEXUAL (LESBIAN)": 5,
+    "ANTI-OTHER ETHNICITY": 10,
+    "ANTI-CATHOLIC": 9,
+    "ANTI-MALE HOMOSEXUAL (GAY)": 73,
+    "ANTI-BLACK": 38,
+    "ANTI-ARAB": 1,
+    "ANTI-FEMALE": 3,
+    "ANTI-TRANSGENDER": 18,
+    "ANTI-GENDER NON-CONFORMING": 3,
+    "ANTI-ASIAN": 134,
+    "ANTI-LGBT (MIXED GROUP)": 1,
+    "ANTI-HISPANIC": 8,
+    "ANTI-JEWISH": 196,
+    "ANTI-MUSLIM": 13
+}
