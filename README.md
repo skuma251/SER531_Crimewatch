@@ -42,11 +42,3 @@ The frontend app will be available at the provided URL.
 
 - Make sure all necessary ports (e.g., Fuseki, Spring Boot server) are not blocked by your firewall.
 - Ensure proper configurations are set up in the application for database connections, API endpoints, etc.
-
-## Contributing
-
-Feel free to contribute by forking the repository and creating pull requests. For major changes, please open an issue first to discuss the proposed changes.
-
-## Acknowledgments
-
-Special thanks to [Amarjeet Singh] for their valuable contributions and support.
