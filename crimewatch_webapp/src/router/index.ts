@@ -1,11 +1,11 @@
-import { createRouter, createWebHistory } from "vue-router";
+import { createRouter, createWebHistory } from "vue-router"
 
 // Import your components
-import Home from "@components/Home.vue";
-import Complaint from "@components/Complaints/Complaints.vue"
-import Shooting from "@components/Shootings/Shooting.vue"
-import HateCrime from "@components/HateCrime/HateCrime.vue"
-import Miscellaneous from "@components/Miscellaneous/Miscellaneous.vue"
+import Home from "../components/Home.vue"
+import Complaint from "../components/Complaints/Complaints.vue"
+import Shooting from "../components/Shootings/Shooting.vue"
+import HateCrime from "../components/HateCrime/HateCrime.vue"
+import Miscellaneous from "../components/Miscellaneous/Miscellaneous.vue"
 
 const routes = [
   {
@@ -33,11 +33,11 @@ const routes = [
     component: Miscellaneous,
     name: "Miscellaneous",
   },
-];
+]
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-});
+})
 
-export default router;
+export default router
