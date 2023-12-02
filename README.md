@@ -17,6 +17,7 @@ Ensure you have the following software installed on your system:
 - Download Fuseki from [https://jena.apache.org/download/] and install it.
 - Run Fuseki server `fuseki-server`.
 - Go to the url provided by fuseki `http://localhost:3030`.
+- Create 2 datasets named as `Complaints_Data` and `Shooting_HateCrime_Data`.
 - Upload RDF data provided in the GitHub repo under the `rdf_triple` folder.
 
 ### 2. Setup and Run Spring Boot
