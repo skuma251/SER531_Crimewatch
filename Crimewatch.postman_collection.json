@@ -1,0 +1,289 @@
+{
+	"info": {
+		"_postman_id": "a50c1cd6-1adf-406a-ac23-260c3c18c2c6",
+		"name": "Crimewatch",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "24364498"
+	},
+	"item": [
+		{
+			"name": "getYearListComplaints",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://52.206.94.62:8082/complaints/getYears"
+			},
+			"response": []
+		},
+		{
+			"name": "getCrimeTypeCountByYear",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/complaints/getCrimeTypeCountByYear?year=2018&sex=M",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"complaints",
+						"getCrimeTypeCountByYear"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2018"
+						},
+						{
+							"key": "sex",
+							"value": "M"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getCrimeTypeCountByBoroAndYear",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/complaints/getBoroCrimeCountByYear?year=2019",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"complaints",
+						"getBoroCrimeCountByYear"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2019"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getBoroMonthStats",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/complaints/getBoroMonthlyStats?year=2019",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"complaints",
+						"getBoroMonthlyStats"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2019"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getYearListShooting",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/shooting/getYears"
+			},
+			"response": []
+		},
+		{
+			"name": "getPerpRaceCountByBoroAndYear",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/shooting/getPerpCountByBoro?year=2017&boro=BRONX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"shooting",
+						"getPerpCountByBoro"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2017"
+						},
+						{
+							"key": "boro",
+							"value": "BRONX"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getVictimRaceCountByBoroAndYear",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/shooting/getVictimCountByBoro?year=2017&boro=BRONX",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"shooting",
+						"getVictimCountByBoro"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2017"
+						},
+						{
+							"key": "boro",
+							"value": "BRONX"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getShootingCountByBoro",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/shooting/getBoroCountByYear?year=2017",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"shooting",
+						"getBoroCountByYear"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2017"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getYearListHateCrime",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:8082/hatecrime/getYears"
+			},
+			"response": []
+		},
+		{
+			"name": "getHateCrimeBoroCountByYear",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/hatecrime/getBoroCountByYear?year=2020",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"hatecrime",
+						"getBoroCountByYear"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2020"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getHateCrimeBoroCountByYear Copy",
+			"protocolProfileBehavior": {
+				"followRedirects": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/hatecrime/getBiasCountByYear?year=2021",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"hatecrime",
+						"getBiasCountByYear"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2021"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getHateCrimeShootingCountByYear",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://52.206.94.62:8082/miscellaneous/getComplaintShootingCountByYear?year=2020",
+					"protocol": "https",
+					"host": [
+						"52",
+						"206",
+						"94",
+						"62"
+					],
+					"port": "8082",
+					"path": [
+						"miscellaneous",
+						"getComplaintShootingCountByYear"
+					],
+					"query": [
+						{
+							"key": "year",
+							"value": "2020"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
