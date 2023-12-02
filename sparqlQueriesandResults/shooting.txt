@@ -1,0 +1,125 @@
+//This file contains all the SPARQL queries related to the shooting data
+
+//Fetching the year values from the dataset
+
+SELECT DISTINCT ?YEAR WHERE {
+                ?crime rdf:type crimewatch:Crime; 
+                crimewatch:occuredDateTime ?datetime; 
+                crimewatch:hasDataSourceType 'Shooting Data'.
+                BIND(YEAR(?datetime) AS ?YEAR).
+                FILTER(?YEAR >=2015).
+                }
+
+Result:
+
+[
+    2015,
+    2016,
+    2017,
+    2018,
+    2019,
+    2020,
+    2021,
+    2022
+]
+
+//Get victim count by race for a particular year
+
+SELECT ?Race (COUNT( Distinct ?crime) as ?Count) WHERE {
+                ?crime rdf:type crimewatch:Crime ;
+                crimewatch:occuredIn ?Location;
+                crimewatch:occuredDateTime ?datetime;
+  				crimewatch:hasVictim ?Victim;
+                crimewatch:hasDataSourceType 'Shooting Data'.
+  				?Victim crimewatch:hasRace ?Race.
+                BIND(YEAR(?datetime) AS ?year).
+                ?Location crimewatch:underArea ?Boro.
+                ?Boro crimewatch:hasName ?BoroName.
+                FILTER(?BoroName ='"+BRONX+"').
+  				FILTER(?year = "+2017+").
+                } GROUP BY ?Race
+
+Result:
+{
+    "WHITE": 3,
+    "WHITE HISPANIC": 27,
+    "BLACK HISPANIC": 17,
+    "BLACK": 84,
+    "UNKNOWN": 1,
+    "ASIAN / PACIFIC ISLANDER": 1
+}
+
+
+//Get perpetrator count by race for a particular year
+
+SELECT ?Race (COUNT( Distinct ?crime) as ?Count) WHERE {
+                ?crime rdf:type crimewatch:Crime ;
+                crimewatch:occuredIn ?Location;
+                crimewatch:occuredDateTime ?datetime;
+  				crimewatch:hasPerpetrator ?Perp;
+                crimewatch:hasDataSourceType 'Shooting Data'.
+  				?Perp crimewatch:hasRace ?Race.
+                BIND(YEAR(?datetime) AS ?year).
+                ?Location crimewatch:underArea ?Boro.
+                ?Boro crimewatch:hasName ?BoroName.
+                FILTER(?BoroName ='"+BRONX+"').
+  				FILTER(?year = "+2017+").
+                } GROUP BY ?Race
+
+Result:
+{
+    "WHITE": 2,
+    "WHITE HISPANIC": 28,
+    "BLACK HISPANIC": 14,
+    "BLACK": 87,
+    "UNKNOWN": 1
+}
+
+
+//Shooting Count by Boroughs for selected year
+
+SELECT ?BoroName (COUNT( Distinct ?crime) as ?Count) WHERE {
+                ?crime rdf:type crimewatch:Crime ;
+                crimewatch:occuredIn ?Location;
+                crimewatch:occuredDateTime ?datetime;
+                crimewatch:hasDataSourceType 'Shooting Data'.
+                BIND(YEAR(?datetime) AS ?year).
+                ?Location crimewatch:underArea ?Boro.
+                ?Boro crimewatch:hasName ?BoroName.
+  				FILTER(?year = "+2019+").
+                } GROUP BY ?BoroName
+
+Result:
+
+{
+    "MANHATTAN": 66,
+    "BRONX": 123,
+    "BROOKLYN": 148,
+    "STATEN ISLAND": 30,
+    "QUEENS": 74
+}
+
+//Getting hate crime and shooting trend for a year
+
+SELECT ?month (COUNT(DISTINCT ?crime1) as ?HateCrimeCount) (COUNT(DISTINCT ?crime2) as ?ShootingCount) WHERE {
+            {  SELECT ?month ?crime1 WHERE {
+            ?crime1 rdf:type crimewatch:Crime ;
+            crimewatch:occuredDateTime ?datetime1 ;
+            crimewatch:hasDataSourceType 'Hate Crime Data' .
+            FILTER(YEAR(?datetime1) ="+ 2020 +").
+            BIND(MONTH(?datetime1) AS ?month).
+            }}
+            {
+            SELECT ?month ?crime2 WHERE {
+            ?crime2 rdf:type crimewatch:Crime ;
+            crimewatch:occuredDateTime ?datetime2 ;
+            crimewatch:hasDataSourceType 'Shooting Data' .
+            FILTER(YEAR(?datetime2) ="+ 2020 +").
+            BIND(MONTH(?datetime2) AS ?month).
+            }}
+            }GROUP BY ?month ORDER BY ?month
+
+Result:
+
+{"Shooting":[38,28,25,26,46,79,68,80,69,56,52,53],
+"Hate Crime":[29,28,31,13,16,18,30,20,21,26,15,19]}
