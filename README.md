@@ -17,7 +17,9 @@ Ensure you have the following software installed on your system:
 - Download Fuseki from [https://jena.apache.org/download/] and install it.
 - Run Fuseki server `fuseki-server`.
 - Go to the url provided by fuseki `http://localhost:3030`.
-- Upload RDF data provided in the GitHub repo under the `rdf_triple` folder.
+- Create 2 datasets named as `Complaints_Data` and `Shooting_HateCrime_Data` datasets and select the persistent option.
+- Go to rdf_triples folder under SER531_Crimewatch project folder and download all the 3 zip files.
+- After extracting the zip files, upload the 2 files(complaints_data.rdf and complaints_data_part2.rdf) in the `Complaints_Data dataset` and other two files (hatecrime_data.rdf and shooting_data.rdf) in the `Shooting_HateCrime_data` dataset.
 
 ### 2. Setup and Run Spring Boot
 
@@ -25,7 +27,7 @@ Ensure you have the following software installed on your system:
 - Navigate to the `crimewatch` folder.
 - For Mac, run `./gradlew bootRun`. For Windows, run `gradlew.bat bootRun`.
 
-### 3. Test the API with Postman
+### 3. Test the API with Postman (optional step)
 
 - Open Postman and import the Postman collection present in the root of the project.
 - Test the API requests to ensure they are responding correctly.
